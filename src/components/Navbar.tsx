@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CheckCircle2, Home, Activity, Star, MoreHorizontal, MessageCircle, Languages } from "lucide-react";
+import { Home, Activity, Star, MoreHorizontal, MessageCircle, Languages } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Navbar() {
@@ -19,8 +19,8 @@ export default function Navbar() {
     <nav className="flex justify-between items-center px-6 h-14 bg-[#0B0E14]/90 border-b border-[#262D3D] backdrop-blur-md sticky top-0 z-50">
       <div className="flex items-center gap-10">
         <Link href="/" className="flex items-center gap-2 text-xl font-bold text-white">
-          <div className="relative flex items-center justify-center text-emerald-500">
-            <CheckCircle2 size={22} strokeWidth={2.5} />
+          <div className="relative flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 shadow-[0_0_14px_rgba(37,99,235,0.55)] ring-1 ring-blue-300/40">
+            <span className="text-[15px] font-black leading-none text-white">M</span>
           </div>
           <span>MIAOYO</span>
         </Link>
