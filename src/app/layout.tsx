@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   description: 'Professional predict market trading analytics: points tracking, trade history & fee analysis.',
   icons: {
     icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.ico?v=2', sizes: 'any' },
+      { url: '/icon.svg?v=2', type: 'image/svg+xml' },
     ],
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    shortcut: '/favicon.ico?v=2',
+    apple: '/icon.svg?v=2',
   },
 };
 
