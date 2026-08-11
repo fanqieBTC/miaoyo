@@ -30,6 +30,11 @@ dev.db
 test-prisma.js
 test-seed.js
 
+# local agent documentation
+AGENTS.md
+CLAUDE.md
+HANDOVER.md
+
 # debug
 npm-debug.log*
 yarn-debug.log*
