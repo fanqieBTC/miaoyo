@@ -43,7 +43,8 @@ export default function WalletInputBar({
       <div className="flex flex-1 min-w-[260px] items-center gap-2 bg-[#18202F] border border-[#262D3D] rounded-lg px-3 py-2 focus-within:border-blue-500/50 transition-colors">
         <button
           onClick={handleCopy}
-          title={t("input.paste") /* Though it says paste in dict, actually it means Copy, I'll update dict if needed, or use a new key. Let's just use "Copy" hardcoded since dict is missing it, wait I have input.paste. I'll just change to t("input.paste") for now, actually "Copy" is missing, let's use t("input.paste") as placeholder and I can add 'Copy' to dict later or just ignore tooltips */}
+          title={copied ? t("input.copied") : t("input.copy")}
+          aria-label={copied ? t("input.copied") : t("input.copy")}
           className="text-gray-500 hover:text-gray-300 transition-colors shrink-0"
         >
           {copied ? (
@@ -65,6 +66,8 @@ export default function WalletInputBar({
         {value && (
           <button
             onClick={() => { onChange(""); inputRef.current?.focus(); }}
+            title={t("common.clear")}
+            aria-label={t("common.clear")}
             className="text-gray-600 hover:text-gray-400 transition-colors shrink-0 text-xs"
           >
             ✕

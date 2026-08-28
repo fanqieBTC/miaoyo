@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Activity, Star, MoreHorizontal, MessageCircle, Languages } from "lucide-react";
+import { Home, Activity, Star, MoreHorizontal, MessageCircle } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const { lang, toggleLanguage, t } = useLanguage();
+  const { lang, setLanguage, t } = useLanguage();
 
   const navItems = [
     { href: "/", label: t("common.home"), icon: <Home size={16} /> },
@@ -56,12 +56,38 @@ export default function Navbar() {
         >
           <MessageCircle size={18} />
         </a>
-        <button 
-          onClick={toggleLanguage}
-          className="flex items-center gap-1.5 text-[13px] font-medium text-gray-400 hover:text-white transition-colors"
+        <div
+          className="flex h-8 items-center rounded-lg border border-[#2A3345] bg-[#111620] p-0.5"
+          role="group"
+          aria-label={t("common.language")}
         >
-          <Languages size={18}/> {lang === "zh" ? "EN" : "中"}
-        </button>
+          <button
+            type="button"
+            onClick={() => setLanguage("zh")}
+            aria-pressed={lang === "zh"}
+            title={t("common.switchToChinese")}
+            className={`h-7 min-w-10 rounded-md px-2 text-xs font-semibold transition-colors ${
+              lang === "zh"
+                ? "bg-blue-600 text-white"
+                : "text-gray-500 hover:text-gray-200"
+            }`}
+          >
+            中文
+          </button>
+          <button
+            type="button"
+            onClick={() => setLanguage("en")}
+            aria-pressed={lang === "en"}
+            title={t("common.switchToEnglish")}
+            className={`h-7 min-w-10 rounded-md px-2 text-xs font-semibold transition-colors ${
+              lang === "en"
+                ? "bg-blue-600 text-white"
+                : "text-gray-500 hover:text-gray-200"
+            }`}
+          >
+            EN
+          </button>
+        </div>
       </div>
     </nav>
   );

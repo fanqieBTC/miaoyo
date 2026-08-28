@@ -1,8 +1,8 @@
 "use client";
 
-import React, { createContext, useCallback, useContext, useSyncExternalStore, ReactNode } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useSyncExternalStore, ReactNode } from "react";
 
-type Language = "zh" | "en";
+export type Language = "zh" | "en";
 
 interface Dictionary {
   [key: string]: string;
@@ -19,6 +19,11 @@ const zhDict: Dictionary = {
   "common.loading": "加载中...",
   "common.joinDiscord": "加入 Discord 社区",
   "common.clear": "清空",
+  "common.language": "语言",
+  "common.chinese": "中文",
+  "common.english": "英文",
+  "common.switchToChinese": "切换为中文",
+  "common.switchToEnglish": "切换为英文",
 
   // Homepage
   "home.badge": "实时链上数据 · 无需登录",
@@ -39,7 +44,8 @@ const zhDict: Dictionary = {
 
   // Input Bar
   "input.placeholder": "输入 0x... 钱包地址",
-  "input.paste": "粘贴",
+  "input.copy": "复制钱包地址",
+  "input.copied": "已复制",
 
   // Points Page
   "points.title": "Predict 积分",
@@ -102,6 +108,11 @@ const enDict: Dictionary = {
   "common.loading": "Loading...",
   "common.joinDiscord": "Join Discord",
   "common.clear": "Clear",
+  "common.language": "Language",
+  "common.chinese": "Chinese",
+  "common.english": "English",
+  "common.switchToChinese": "Switch to Chinese",
+  "common.switchToEnglish": "Switch to English",
 
   // Homepage
   "home.badge": "Real-time On-chain Data · No Login",
@@ -122,7 +133,8 @@ const enDict: Dictionary = {
 
   // Input Bar
   "input.placeholder": "Enter 0x... wallet address",
-  "input.paste": "Paste",
+  "input.copy": "Copy wallet address",
+  "input.copied": "Copied",
 
   // Points Page
   "points.title": "Predict Points",
@@ -176,12 +188,14 @@ const enDict: Dictionary = {
 
 interface LanguageContextType {
   lang: Language;
+  setLanguage: (language: Language) => void;
   toggleLanguage: () => void;
   t: (key: string, params?: Record<string, string | number>) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
   lang: "zh",
+  setLanguage: () => {},
   toggleLanguage: () => {},
   t: (k) => k,
 });
@@ -228,10 +242,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   );
   const lang = useSyncExternalStore<Language>(subscribeToLanguage, readStoredLanguage, () => "zh");
 
-  const toggleLanguage = useCallback(() => {
-    const newLang = lang === "zh" ? "en" : "zh";
+  const setLanguage = useCallback((newLang: Language) => {
+    if (newLang === readStoredLanguage()) return;
     window.localStorage.setItem(LANGUAGE_STORAGE_KEY, newLang);
     window.dispatchEvent(new Event(LANGUAGE_STORAGE_EVENT));
+  }, []);
+
+  const toggleLanguage = useCallback(() => {
+    setLanguage(lang === "zh" ? "en" : "zh");
+  }, [lang, setLanguage]);
+
+  useEffect(() => {
+    document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
   }, [lang]);
 
   const t = (key: string, params?: Record<string, string | number>) => {
@@ -251,7 +273,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <LanguageContext.Provider value={{ lang, toggleLanguage, t }}>
+    <LanguageContext.Provider value={{ lang, setLanguage, toggleLanguage, t }}>
       {children}
     </LanguageContext.Provider>
   );

@@ -9,8 +9,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceLine,
 } from "recharts";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface WeekStat {
   weekId: string;
@@ -45,6 +45,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export default function PointsChart({ data }: Props) {
+  const { t } = useLanguage();
+
   return (
     <div style={{ width: "100%", height: 300 }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -87,7 +89,7 @@ export default function PointsChart({ data }: Props) {
             yAxisId="left"
             type="monotone"
             dataKey="points"
-            name="积分"
+            name={t("points.th.points")}
             stroke="#10B981"
             strokeWidth={2}
             dot={{ r: 3, fill: "#0B0E14", stroke: "#10B981", strokeWidth: 2 }}
@@ -97,7 +99,7 @@ export default function PointsChart({ data }: Props) {
             yAxisId="right"
             type="monotone"
             dataKey="pointCost"
-            name="积分成本"
+            name={t("points.th.cost")}
             stroke="#F59E0B"
             strokeWidth={2}
             dot={{ r: 3, fill: "#0B0E14", stroke: "#F59E0B", strokeWidth: 2 }}

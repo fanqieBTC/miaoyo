@@ -34,9 +34,9 @@ interface Trade {
 const fmt = (n: number, d = 2) =>
   n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 
-const fmtTime = (iso: string) => {
+const fmtTime = (iso: string, locale: string) => {
   const d = new Date(iso);
-  return d.toLocaleString("zh-CN", {
+  return d.toLocaleString(locale, {
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
@@ -54,7 +54,8 @@ const PAGE_SIZE = 50;
 
 // ── Main Page ──────────────────────────────────────────
 export default function TradesPage() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
+  const locale = lang === "zh" ? "zh-CN" : "en-US";
   const [wallet, setWallet] = useLocalStorageString("opinx_wallet_address");
   const [loading, setLoading] = useState(false);
   const [summary, setSummary] = useState<TradeSummary | null>(null);
@@ -216,7 +217,7 @@ export default function TradesPage() {
                           key={`${tx.id}-${tx.timestamp}-${idx}`}
                           className="border-b border-[#262D3D]/40 hover:bg-white/[0.025] transition-colors"
                         >
-                          <td className="py-2.5 px-4 text-gray-500 num whitespace-nowrap">{fmtTime(tx.timestamp)}</td>
+                          <td className="py-2.5 px-4 text-gray-500 num whitespace-nowrap">{fmtTime(tx.timestamp, locale)}</td>
                           <td className="py-2.5 px-4 text-gray-300 max-w-[180px]">
                             <div className="flex items-center gap-1">
                               <span className="truncate" title={tx.market}>{tx.market}</span>
